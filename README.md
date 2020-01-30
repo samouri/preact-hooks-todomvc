@@ -1,5 +1,7 @@
 # preact-hooks-todomvc
 
+WIP port of [preact-todomvc](https://github.com/developit/preact-todomvc), but made with hooks.
+
 ## CLI Commands
 
 ``` bash
