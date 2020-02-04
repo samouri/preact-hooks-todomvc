@@ -6,11 +6,13 @@ export default function App() {
 
   return (
     <>
-      <Header addTodo={text => dispatch({ type: "ADD_TODO", text })} />
-      <TodoList
-        todos={todos}
-        deleteTodo={id => dispatch({ type: "DELETE_TODO", id })}
-      />
+      <section class="todoapp">
+        <Header addTodo={text => dispatch({ type: "ADD_TODO", text })} />
+        <TodoList
+          todos={todos}
+          deleteTodo={id => dispatch({ type: "DELETE_TODO", id })}
+        />
+      </section>
       <Footer />
     </>
   );
@@ -33,24 +35,22 @@ function reducer(state, action) {
 function Header({ addTodo }) {
   return (
     <>
-      <section class="todoapp">
-        <div>
-          <header class="header">
-            <h1>todos</h1>
-            <input
-              class="new-todo"
-              placeholder="What needs to be done?"
-              autofocus="true"
-              onKeyDown={evt => {
-                if (evt.code === "Enter") {
-                  addTodo(evt.target.value);
-                  evt.target.value = "";
-                }
-              }}
-            />
-          </header>
-        </div>
-      </section>
+      <div>
+        <header class="header">
+          <h1>todos</h1>
+          <input
+            class="new-todo"
+            placeholder="What needs to be done?"
+            autofocus="true"
+            onKeyDown={evt => {
+              if (evt.code === "Enter") {
+                addTodo(evt.target.value);
+                evt.target.value = "";
+              }
+            }}
+          />
+        </header>
+      </div>
     </>
   );
 }
@@ -58,7 +58,8 @@ function Header({ addTodo }) {
 function TodoList({ todos, deleteTodo }) {
   return (
     <section class="main">
-      <input class="toggle-all" type="checkbox" />
+      <input class="toggle-all" id="toggle-all" type="checkbox" />
+      <label for="toggle-all">Mark all as complete</label>
       <ul class="todo-list">
         {todos.map(({ id, text }) => (
           <li class="">
