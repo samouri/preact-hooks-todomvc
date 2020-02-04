@@ -11,6 +11,8 @@ export default function App() {
         <TodoList
           todos={todos}
           deleteTodo={id => dispatch({ type: "DELETE_TODO", id })}
+          toggleAll={checked => dispatch({ type: "TOGGLE_ALL", checked })}
+          toggle={id => dispatch({ type: "TOGGLE", id })}
         />
       </section>
       <Footer />
@@ -27,6 +29,15 @@ function reducer(state, action) {
       let indexToDelete = state.findIndex(todo => todo.id === action.id);
       state.splice(indexToDelete, 1);
       return [...state];
+    case "TOGGLE":
+      return state.map(todo => {
+        if (todo.id !== action.id) {
+          return todo;
+        }
+        return { ...todo, checked: !todo.checked };
+      });
+    case "TOGGLE_ALL":
+      return state.map(todo => ({ ...todo, checked: action.checked }));
     default:
       return state;
   }
@@ -55,16 +66,26 @@ function Header({ addTodo }) {
   );
 }
 
-function TodoList({ todos, deleteTodo }) {
+function TodoList({ todos, deleteTodo, toggle, toggleAll }) {
   return (
     <section class="main">
-      <input class="toggle-all" id="toggle-all" type="checkbox" />
+      <input
+        class="toggle-all"
+        id="toggle-all"
+        type="checkbox"
+        onChange={evt => toggleAll(evt.target.checked)}
+      />
       <label for="toggle-all">Mark all as complete</label>
       <ul class="todo-list">
-        {todos.map(({ id, text }) => (
+        {todos.map(({ id, text, checked }) => (
           <li class="">
             <div class="view">
-              <input class="toggle" type="checkbox" />
+              <input
+                class="toggle"
+                type="checkbox"
+                checked={checked}
+                onChange={() => toggle(id)}
+              />
               <label>{text}</label>
               <button class="destroy" onClick={() => deleteTodo(id)} />
             </div>
